@@ -1,5 +1,5 @@
 {
-  "name": "craftcms/contact-form",
+  "name": "typenetwork/contact-form",
   "description": "Add a simple contact form to your Craft CMS site",
   "version": "2.2.7",
   "type": "craft-plugin",
@@ -19,10 +19,10 @@
   ],
   "support": {
     "email": "support@craftcms.com",
-    "issues": "https://github.com/craftcms/contact-form/issues?state=open",
-    "source": "https://github.com/craftcms/contact-form",
-    "docs": "https://github.com/craftcms/contact-form/blob/v2/README.md",
-    "rss": "https://github.com/craftcms/contact-form/commits/v2.atom"
+    "issues": "https://github.com/typenetwork/contact-form/issues?state=open",
+    "source": "https://github.com/typenetwork/contact-form",
+    "docs": "https://github.com/typenetwork/contact-form/blob/v2/README.md",
+    "rss": "https://github.com/typenetwork/contact-form/commits/v2.atom"
   },
   "require": {
     "craftcms/cms": "^3.0.0-RC11"
@@ -35,7 +35,7 @@
   "extra": {
     "name": "Contact Form",
     "handle": "contact-form",
-    "documentationUrl": "https://github.com/craftcms/contact-form/blob/v2/README.md",
+    "documentationUrl": "https://github.com/typenetwork/contact-form/blob/v2/README.md",
     "components": {
       "mailer": "craft\\contactform\\Mailer"
     }

@@ -37,7 +37,7 @@ class SendController extends Controller
         $submission = new Submission();
         $submission->fromEmail = $request->getBodyParam('fromEmail');
         $submission->fromName = $request->getBodyParam('fromName');
-        $submission->subject = $request->getBodyParam('subject');
+        $submission->subject = $request->getBodyParam('subject') ?: "Contact form";
 
         $message = $request->getBodyParam('message');
         if (is_array($message)) {
@@ -56,15 +56,38 @@ class SendController extends Controller
             }
         }
 
-        if (!$plugin->getMailer()->send($submission)) {
+		$formatted = array();
+		if (is_array($message)) {
+			foreach ($message as $k => $v) {
+				if ($k !== "body") {
+					$formatted[] = "{$k}: $v";
+				}
+			}
+			if (isset($message['body'])) {
+				$formatted[] = "";
+				$formatted[] = $message['body'];
+			}
+			
+			$formatted = implode("\r\n", $formatted);
+		} else {
+			$formatted = $message;
+		}
+		
+		$formatted = preg_replace('/(?<!\r)\n/', "\r\n", $formatted);
+		
+//        if (!$plugin->getMailer()->send($submission)) {
+		if (!mail($settings->toEmail, ($settings->prependSubject ? $settings->prependSubject . " " : "") . $submission->subject, $formatted, "From: custom@typenetwork.com\r\nReply-to: \"{$submission->fromName}\" <{$submission->fromEmail}>")) {
             if ($request->getAcceptsJson()) {
-                return $this->asJson(['errors' => $submission->getErrors()]);
+//                 return $this->asJson(['errors' => $submission->getErrors()]);
+                 return $this->asJson(['errors' => ["Message failed to send! Please email custom@typenetwor.com directly. We aplogize for this error."]]);
             }
 
+/*
             Craft::$app->getSession()->setError(Craft::t('contact-form', 'There was a problem with your submission, please check the form and try again!'));
             Craft::$app->getUrlManager()->setRouteParams([
                 'variables' => ['message' => $submission]
             ]);
+*/
 
             return null;
         }
